@@ -2,14 +2,16 @@ package datamgmt
 
 import (
 	"../tools/config" //读取配置文件
+	"../tools/util"
 	"bytes"
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 )
 
 const (
-	log_name_format string = "%d_%d_%d_%d_%d"
+	log_name_format string = "%d%d%d-%d%d"
 )
 
 
@@ -24,40 +26,36 @@ var webpostLogObj = new(WEBPOSTLogObj)
 
 //多线程调用
 func DataAnalyse(logdata []byte) {
-
-
-	fmt.Printf("logdata %x\n",logdata)
-		//2.当前默认都为本机处理
-		if bytes.Equal(logdata[MAGIC_HEADER:(MAGIC_HEADER + 4)], const_magic) {
-			pkgHeader.NewLog(logdata)
-			var log_count int = PKG_HEADER_LENGTH //纪录读到哪个byte了
-			LOGF:
-			for (log_count + LOG_HEADER_LENGTH) < pkgHeader.Length {
-				//第一个log
-				logHeader.NewLog(logdata[log_count : log_count+LOG_HEADER_LENGTH])
-									fmt.Printf("logid = %x\n",logHeader.Logid)
-				if _,ok:=IM_LOGID[logHeader.Logid] {
-		                        writeFormat(imLogObj,logdata[log_count:])
-				} else if _,ok:=NAT_LOGID[logHeader.Logid] {
-
-		                        writeFormat(natLogObj,logdata[log_count:])
-				} else if _,ok:=URL_LOGID[logHeader.Logid] {
-		                        writeFormat(urlLogObj,logdata[log_count:])
-				} else {
-
-				}
-				if pkgHeader.Version != 1 && logHeader.Length != 0 {
-					log_count = log_count + logHeader.Length
-				} else {
-					break LOGF
-				}
+	//2.当前默认都为本机处理
+	if bytes.Equal(logdata[MAGIC_HEADER:(MAGIC_HEADER + 4)], const_magic) {
+		pkgHeader.NewLog(logdata)
+		var log_count int = PKG_HEADER_LENGTH //纪录读到哪个byte了
+		LOGF:
+		for (log_count + LOG_HEADER_LENGTH) < pkgHeader.Length {
+			//第一个log
+			logHeader.NewLog(logdata[log_count : log_count+LOG_HEADER_LENGTH])
+			if util.ContainsIntSlice(logHeader.Logid,IM_LOGID) != -1 {
+	                writeFormat(imLogObj,logdata[log_count:])
+			} else if util.ContainsIntSlice(logHeader.Logid,NAT_LOGID) != -1 {
+	                writeFormat(natLogObj,logdata[log_count:])
+			}else if util.ContainsIntSlice(logHeader.Logid,URL_LOGID) != -1{
+	            writeFormat(urlLogObj,logdata[log_count:])
 			}
+			if pkgHeader.Version != 1 && logHeader.Length != 0 {
+				log_count = log_count + logHeader.Length
+			} else {
+				break LOGF
+			}
+		}
 
-		} else {
-			magicid:=string(logdata[1:3])
-			println(magicid)
+	} else {
+		magicid:=string(logdata[1:4])
+		mid,_ := strconv.Atoi(magicid)
+		if mid>>3 == 23 && (mid&0x07)<8 {
 			writeFormat(txtLogObj,logdata)
 		}
+		
+	}
 	        
 }
 
@@ -88,7 +86,6 @@ BTF:
 	for {
 		//_, ok := <-config.LogTypeBuffMap[logType]
 		logObj, ok := <-config.LogTypeBuffMap[logType]
-		println(logObj)
 		if !ok {
 			break BTF
 		}
@@ -108,7 +105,7 @@ BTF:
 			ptime = ctime
 		}
 		logStr := fileFormat(logObj, year, int(month), day, hour, min, sec)
-		println(logStr)
+		println("log = <<< ",logStr,">>>")
 		curFile.WriteString(logStr)
 	}
 }

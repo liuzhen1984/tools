@@ -6,15 +6,7 @@ import (
 	"fmt"
 )
 
-const (
-	NAT_LOGID [uint32]int =
-	{ 
-		0x46083606:1,
-		0x46083607:1,
-		0x46083615:1,
-		0x46083616:1,
-	}
-)
+var NAT_LOGID = []uint32{ 0x46083606,0x46083607,0x46083615,0x46083616}
 
 //日志内容
 type NATLogObj struct {
@@ -35,7 +27,7 @@ type NATLogObj struct {
 	* data format as:
 	* user\tvrname\ttype\tid\taction
 	 */
-	Data []byte //length = Length
+	Data string//length = Length
 }
 
 //LogObj.LogData
@@ -51,7 +43,7 @@ func (logObj *NATLogObj) NewLog(logstream []byte) {
 	logObj.DstNatPort = convert.BinToInt(logstream[38:40])
 	logObj.Length = convert.BinToInt(logstream[40:42])
 	logObj.Res = convert.BinToUint16(logstream[42:44])
-	logObj.Data = logstream[44:(44 + logObj.Length)]
+	logObj.Data = string(logstream[44:(44 + logObj.Length)])
 }
 
 func (logObj *NATLogObj) LogWrite() {
@@ -67,5 +59,5 @@ func (logObj *NATLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHea
 		logHeader.Year,logHeader.Month,logHeader.Day,logHeader.TmHour,logHeader.TmMin,logHeader.TmSec,
 		logObj.SrcIp, logObj.SrcPort, logObj.SrcNatIp, logObj.SrcNatPort,
 		logObj.DstIp, logObj.DstPort, logObj.DstNatIp, logObj.DstNatPort,
-		string(logObj.Data))
+		logObj.Data)
 }

@@ -29,7 +29,7 @@ type WEBPOSTLogObj struct {
 	* data format as:
 	* user\tvrname\ttype\tid\taction
 	 */
-	Data []byte //length = Length
+	Data string //length = Length
 }
 
 //LogObj.LogData
@@ -45,7 +45,7 @@ func (logObj *WEBPOSTLogObj) NewLog(logstream []byte) {
 	logObj.DstNatPort = convert.BinToInt(logstream[38:40])
 	logObj.Length = convert.BinToInt(logstream[40:42])
 	logObj.Res = convert.BinToUint16(logstream[42:44])
-	logObj.Data = logstream[44:(44 + logObj.Length)]
+	logObj.Data = string(logstream[44:(44 + logObj.Length)])
 }
 
 func (logObj *WEBPOSTLogObj) LogWrite() {
@@ -59,5 +59,5 @@ func (logObj *WEBPOSTLogObj) FileFormat(year, month, day, hour, min, sec int, pk
 		logHeader.Year,logHeader.Month,logHeader.Day,logHeader.TmHour,logHeader.TmMin,logHeader.TmSec,
 		logObj.SrcIp, logObj.SrcPort, logObj.SrcNatIp, logObj.SrcNatPort,
 		logObj.DstIp, logObj.DstPort, logObj.DstNatIp, logObj.DstNatPort,
-		string(logObj.Data))
+		logObj.Data)
 }

@@ -6,13 +6,7 @@ import (
 	"fmt"
 )
 
-const (
-	URL_LOGID [uint32]int =
-	{ 
-		0x4438360d:1,
-		0x4438360f:1,
-	}
-)
+var URL_LOGID = []uint32{ 0x4438360d,0x4438360f}
 
 //url日志内容
 /*
@@ -51,7 +45,7 @@ type URLLogObj struct {
 	* data format as:
 	* user\tvrname\turl\tcategory\tmethod\taction\treson\ta3server\tmac
 	 */
-	Data []byte //length = Length
+	Data string //length = Length
 }
 
 //LogObj.LogData
@@ -67,7 +61,7 @@ func (urlLog *URLLogObj) NewLog(logstream []byte) {
 	urlLog.DstNatPort = convert.BinToInt(logstream[38:40])
 	urlLog.Length = convert.BinToInt(logstream[40:42])
 	urlLog.Res = convert.BinToUint16(logstream[42:44])
-	urlLog.Data = logstream[44:(44 + urlLog.Length)]
+	urlLog.Data = string(logstream[44:(44 + urlLog.Length)])
 }
 
 func (urlLog *URLLogObj) LogWrite() {
@@ -81,5 +75,5 @@ func (urlLog *URLLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHea
 		logHeader.Year,logHeader.Month,logHeader.Day,logHeader.TmHour,logHeader.TmMin,logHeader.TmSec,
 		urlLog.SrcIp, urlLog.SrcPort, urlLog.SrcNatIp, urlLog.SrcNatPort,
 		urlLog.DstIp, urlLog.DstPort, urlLog.DstNatIp, urlLog.DstNatPort,
-		string(urlLog.Data))
+		urlLog.Data)
 }

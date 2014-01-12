@@ -2,13 +2,12 @@ package datamgmt
 
 import (
 	"../tools/config"
-	"../tools/convert"
+	"strconv"
 	"fmt"
 )
 
-const (
-	MODULE []string = {"UNKNOW","SYS","MGMT","NET","FW","VPN","FLOW","AAA","IDP","RES"}
-	SUB_MODULE := map[string][]string{
+	var MODULE  = []string{"UNKNOW","SYS","MGMT","NET","FW","VPN","FLOW","AAA","IDP","RES"}
+	var SUB_MODULE = map[string][]string{
 		"SYS": {"UNKNOW","SM_SYS_IPC", "SM_SYS_FS","SM_SYS_MONITOR","SM_SYS_CHASSISD","SM_SYS_UPDATED","SM_SYS_EBYPASS","SM_SYS_SMSD","SM_SYS_ISSU","SM_SYS_CPU_BUSY"}, 
 		"MGMT": {"UNKNOW","SM_MGMT_ADMIN","SM_MGMT_PARSER","SM_MGMT_WEBUI","SM_MGMT_SNMP","SM_MGMT_CONFIG","SM_MGMT_LOGIN","SM_MGMT_LICENSE","SM_MGMT_TELNET","SM_MGMT_SSH","SM_MGMT_HA","SM_MGMT_SMAGENT","SM_MGMT_LOGD","SM_MGMT_FTP","SM_MGMT_SSM_HA","SM_MGMT_NMAGENT","SM_MGMT_HEALTH"}, 
 		"NET": {"UNKNOW","SM_NET_IF","SM_NET_ROUTE","SM_NET_RIP","SM_NET_OSPF","SM_NET_BGP","SM_NET_DHCP","SM_NET_DNS","SM_NET_NTP","SM_NET_ARP","SM_NET_PPPOE","SM_NET_PBR","SM_NET_DDNS","SM_NET_SWITCH","SM_NET_DHCPSN","SM_NET_RSTP","SM_NET_VR","SM_NET_DOT1X","SM_NET_ND","SM_NET_WEBAUTH","SM_NET_LACP"},
@@ -20,9 +19,8 @@ const (
 		"RES": {"UNKNOW","SM_RES_PKI","SM_RES_APPSIG"}, 
 	}
 
-	TYPE []string = {"Event","Alarm","Config","Traffic","Debug","Security","Network","NBC","IPS"}
-	SEVERITY []string = {"Emerg","Alert","Critical","Error","Warning","Notice","Info","Debug"}
-)
+	var TYPE  = []string{"Event","Alarm","Config","Traffic","Debug","Security","Network","NBC","IPS"}
+	var SEVERITY = []string{"Emerg","Alert","Critical","Error","Warning","Notice","Info","Debug"}
 
 //日志内容
 type TXTLogObj struct {
@@ -30,27 +28,29 @@ type TXTLogObj struct {
 	SubModule string;
 	Type string;
 	Severity string;
-	Data []byte //length = Length
+	Data string; //length = Length
 }
 
 //LogObj.LogData
 func (logObj *TXTLogObj) NewLog(logstream []byte) {
-	logid:=logstream[25:8]
-	logObj.Module = MODULE[logid>>24&0x03F]
-	logObj.SubModule = SUB_MODULE[logObj.Module][logid>>18&0x03F]
-	logObj.Type = TYPE[logid>>12&0x03F]
-	logObj.Severity = SEVERITY[logid>>8&0x03F]
-	logObj.Data = logstream[5:len(logstream)]
+	id:=string(logstream[25:32])
+	logid,err:=strconv.ParseUint("0x"+id,0,0)
+	if err == nil {
+	    logObj.Module = MODULE[logid>>24&0x03F]
+	    logObj.SubModule = SUB_MODULE[logObj.Module][logid>>18&0x03F]
+	    logObj.Type = TYPE[logid>>12&0x03F]
+	    logObj.Severity = SEVERITY[logid>>8&0x03F]
+	    logObj.Data = string(logstream[5:])
+	}
 }
 
 func (logObj *TXTLogObj) LogWrite() {
-	fmt.Printf("logid = %v\n",logObj)
 	config.LogTypeBuffMap[config.TXTLOG_NAME] <- logObj
 	//写入到处理日志的缓存
 }
 
 func (logObj *TXTLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHeader PkgHeader, logHeader LogHeader) string {
-	return fmt.Sprintf("Host:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:%s,\tLevel:%s,\tLogDesc:%%s\n",
-		string(pkgHeader.Host),year, month, day, hour, min, sec,
+	return fmt.Sprintf("Module:%s,\tSubModule:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:%s,\tLevel:%s,\tLogDesc:%s\n",
+		logObj.Module,logObj.SubModule,year, month, day, hour, min, sec,
 		logObj.Type,logObj.Severity,string(logObj.Data))
 }

@@ -6,13 +6,7 @@ import (
 	"fmt"
 )
 
-const (
-	IM_LOGID [uint32]int =
-	{ 
-		0x464c7619:1,
-		0x464C761A:1,
-	}
-)
+var IM_LOGID  = []uint32 { 0x464c7619,0x464C761A }
 
 //im日志内容
 /*
@@ -52,7 +46,7 @@ type IMLogObj struct {
 	* data format as:
 	* user\tvrname\ttype\tid\taction\ta3server\tmac
 	 */
-	Data []byte //length = Length
+	Data string //length = Length
 }
 
 //LogObj.LogData
@@ -68,7 +62,7 @@ func (imLog *IMLogObj) NewLog(logstream []byte) {
 	imLog.DstNatPort = convert.BinToInt(logstream[38:40])
 	imLog.Length = convert.BinToInt(logstream[40:42])
 	imLog.Res = convert.BinToUint16(logstream[42:44])
-	imLog.Data = logstream[44:(44 + imLog.Length)]
+	imLog.Data = string(logstream[44:(44 + imLog.Length)])
 }
 
 func (imLog *IMLogObj) LogWrite() {
@@ -82,5 +76,5 @@ func (imLog *IMLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHeade
 		logHeader.Year,logHeader.Month,logHeader.Day,logHeader.TmHour,logHeader.TmMin,logHeader.TmSec,
 		imLog.SrcIp, imLog.SrcPort, imLog.SrcNatIp, imLog.SrcNatPort,
 		imLog.DstIp, imLog.DstPort, imLog.DstNatIp, imLog.DstNatPort,
-		string(imLog.Data))
+		imLog.Data)
 }

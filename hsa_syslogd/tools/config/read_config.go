@@ -1,8 +1,5 @@
 package config
 
-import (
-	"fmt"
-)
 var LogTypeBuffMap = make(map[string]chan interface{})
 
 /*
@@ -10,36 +7,13 @@ var LogTypeBuffMap = make(map[string]chan interface{})
 启动时初始化一次，其他的则直接读取
 */
 
+var LOGTYPES = []string {"IM","URL","NAT","STONE_TXT","WEBPOST","NAT444"}
+
 const (
 	IM_NAME      string = "IM"
 	URL_NAME     string = "URL"
 	NAT_NAME     string = "NAT"
-	NAT444_NAME     string = "NAT444"
+	NAT444_NAME  string = "NAT444"
 	WEBPOST_NAME string = "WEBPOST"
-	TXTLOG_NAME string = "STONE_TXT"
+	TXTLOG_NAME  string = "STONE_TXT"
 )
-
-
-
-
-type Logs struct {
-	
-	Rtypes []string
-}
-
-
-
-
-var HSACONFIG = new(Logs)
-
-func ReadConfig() {
-		
-		HSACONFIG.Rtypes = append(HSACONFIG.Rtypes, IM_NAME)
-		HSACONFIG.Rtypes = append(HSACONFIG.Rtypes, NAT_NAME)
-		HSACONFIG.Rtypes = append(HSACONFIG.Rtypes, URL_NAME)
-		HSACONFIG.Rtypes = append(HSACONFIG.Rtypes, NAT444_NAME)
-		HSACONFIG.Rtypes = append(HSACONFIG.Rtypes, WEBPOST_NAME)
-
-	fmt.Println(HSACONFIG)
-
-}

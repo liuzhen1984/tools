@@ -15,7 +15,7 @@ func ContainsStrSlice(find string, strSlice []string) (index int) {
 	return
 }
 
-func ContainsIntSlice(find int, strSlice []int) (index int) {
+func ContainsIntSlice(find uint32, strSlice []uint32) (index int) {
 	for p, v := range strSlice {
 		if find == v {
 			index = p

@@ -43,11 +43,11 @@ func syslogd() {
 }
 
 func main() {
-	for _, v := range config.HSACONFIG.Rtypes {
+	for _, v := range config.LOGTYPES {
 		config.LogTypeBuffMap[v] = make(chan interface{}, 8192)
 	}
 
-	for _, v := range config.HSACONFIG.Rtypes {
+	for _, v := range config.LOGTYPES {
 		go datamgmt.BuffToFile(v)
 	}
 	//启动syslogd主进程
