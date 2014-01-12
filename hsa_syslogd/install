@@ -1,0 +1,2 @@
+1. 创建配置文件/etc/hsa/config.xml
+2. syslog_demean 放入到/usr/bin/下

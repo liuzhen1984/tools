@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<Default>
+		<!--role: 1 master 0 backup-->
+		<ListenIp></ListenIp>
+		<SocketBuffer>40</SocketBuffer>
+		<ChannelBuffer>8192</ChannelBuffer>
+		<Role>Master</Role>
+		<Cpu>2</Cpu>
+		<Disk>128</Disk>
+		<ManageIp>10.160.35.110</ManageIp>
+		<Port>514</Port>
+		<Protocol>udp4</Protocol>
+		<ManagePort>22</ManagePort>
+		<LogPath>/var/log/hsa</LogPath>
+	</Default>
+	<ParentDevice>
+		<Ip>10.160.35.110</Ip>
+		<Port>514</Port>
+	</ParentDevice>
+
+	<Devices>
+		<Device>
+			<Ip>10.160.35.110</Ip>
+		    <Port>514</Port>
+		    <ManagePort>22</ManagePort>
+		</Device>
+		<Device>
+			<Ip>10.160.35.110</Ip>
+		    <Port>514</Port>
+		    <ManagePort>22</ManagePort>
+		</Device>
+				<Device>
+			<Ip>10.160.35.110</Ip>
+		    <Port>514</Port>
+		    <ManagePort>22</ManagePort>
+		</Device>
+	</Devices>
+	<Log>
+		<Transpond>
+			<!--active: 1 开启转发 0 关闭转发-->
+			<Active>0</Active>
+			<Ttype>ftp</Ttype>
+			<Host>0.0.0.0</Host>
+		</Transpond>
+		<Receive>
+			<Active>1</Active>
+			<IMLOG>1</IMLOG>
+			<NATLOG>1</NATLOG>
+			<URLLOG>0</URLLOG>
+			<WEBPOSTLOG>0</WEBPOSTLOG>
+		</Receive>
+
+	</Log>
+	<Database>
+		<Host>localhost</Host>
+		<Port>3306</Port>
+		<Dtype>mysql</Dtype>
+		<Username>root</Username>
+		<Password></Password>
+	</Database>
+</Config>
