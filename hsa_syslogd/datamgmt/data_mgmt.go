@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	log_name_format string = "%d%d%d-%d%d"
+	log_name_format string = "%04d%02d%02d-%02d%02d"
 )
 
 
@@ -32,16 +32,21 @@ func DataAnalyse(logdata []byte) {
 		var log_count int = PKG_HEADER_LENGTH //纪录读到哪个byte了
 		LOGF:
 		for (log_count + LOG_HEADER_LENGTH) < pkgHeader.Length {
+		
 			//第一个log
 			logHeader.NewLog(logdata[log_count : log_count+LOG_HEADER_LENGTH])
+			if log_count+logHeader.Length > pkgHeader.Length{
+				log_count = log_count + logHeader.Length
+				continue
+			}
 			if util.ContainsIntSlice(logHeader.Logid,IM_LOGID) != -1 {
 	                writeFormat(imLogObj,logdata[log_count:])
 			} else if util.ContainsIntSlice(logHeader.Logid,NAT_LOGID) != -1 {
 	                writeFormat(natLogObj,logdata[log_count:])
 			}else if util.ContainsIntSlice(logHeader.Logid,URL_LOGID) != -1{
-	            writeFormat(urlLogObj,logdata[log_count:])
+	                writeFormat(urlLogObj,logdata[log_count:])
 			}
-			if pkgHeader.Version != 1 && logHeader.Length != 0 {
+			if pkgHeader.Version > 0 && logHeader.Length != 0 {
 				log_count = log_count + logHeader.Length
 			} else {
 				break LOGF

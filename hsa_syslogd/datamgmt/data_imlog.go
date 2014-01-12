@@ -31,10 +31,10 @@ var IM_LOGID  = []uint32 { 0x464c7619,0x464C761A }
 type IMLogObj struct {
 	LogHeader LogHeader
 
-	SrcIp    []byte //uint32
-	SrcNatIp []byte //uint32
-	DstIp    []byte //uint32
-	DstNatIp []byte //uint32
+	SrcIp    string //uint32
+	SrcNatIp string //uint32
+	DstIp    string //uint32
+	DstNatIp string //uint32
 
 	SrcPort    int
 	SrcNatPort int
@@ -52,17 +52,19 @@ type IMLogObj struct {
 //LogObj.LogData
 func (imLog *IMLogObj) NewLog(logstream []byte) {
 	imLog.LogHeader.NewLog(logstream)
-	imLog.SrcIp = logstream[16:20]
-	imLog.SrcNatIp = logstream[20:24]
-	imLog.DstIp = logstream[24:28]
-	imLog.DstNatIp = logstream[28:32]
+	imLog.SrcIp = convert.BytesToIp(logstream[16:20])
+	imLog.SrcNatIp = convert.BytesToIp(logstream[20:24])
+	imLog.DstIp = convert.BytesToIp(logstream[24:28])
+	imLog.DstNatIp = convert.BytesToIp(logstream[28:32])
+
+
 	imLog.SrcPort = convert.BinToInt(logstream[32:34])
 	imLog.SrcNatPort = convert.BinToInt(logstream[34:36])
 	imLog.DstPort = convert.BinToInt(logstream[36:38])
 	imLog.DstNatPort = convert.BinToInt(logstream[38:40])
 	imLog.Length = convert.BinToInt(logstream[40:42])
 	imLog.Res = convert.BinToUint16(logstream[42:44])
-	imLog.Data = string(logstream[44:(44 + imLog.Length)])
+	imLog.Data = string(logstream[44:imLog.LogHeader.Length])
 }
 
 func (imLog *IMLogObj) LogWrite() {
@@ -71,8 +73,8 @@ func (imLog *IMLogObj) LogWrite() {
 }
 
 func (imLog *IMLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHeader PkgHeader, logHeader LogHeader) string {
-	return fmt.Sprintf("Host:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:NBC,\tLevel:info,\tRealTime:%d-%d-%d %d:%d:%d,\tSrcIp:%v,\tSrcPort:%d,\tSrcNatIp:%v,\tSrcNatPort:%d,\tDstIp:%v,\tDstPort%d,\tDstNatIp:%v,\tDstNatPort:%d,\tDesc:%s\n",
-		string(pkgHeader.Host),year, month, day, hour, min, sec,
+	return fmt.Sprintf("[Binary Log IM]-> Host:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tTYPE:NBC,\tLevel:info,\tRealTime:%d-%d-%d %d:%d:%d,\tSrcIp:%s,\tSrcPort:%d,\tSrcNatIp:%s,\tSrcNatPort:%d,\tDstIp:%s,\tDstPort%d,\tDstNatIp:%s,\tDstNatPort:%d,\tDesc:%s\n",
+		pkgHeader.Host,year, month, day, hour, min, sec,
 		logHeader.Year,logHeader.Month,logHeader.Day,logHeader.TmHour,logHeader.TmMin,logHeader.TmSec,
 		imLog.SrcIp, imLog.SrcPort, imLog.SrcNatIp, imLog.SrcNatPort,
 		imLog.DstIp, imLog.DstPort, imLog.DstNatIp, imLog.DstNatPort,

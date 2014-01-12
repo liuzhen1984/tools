@@ -55,3 +55,15 @@ func BinToInt32(bin []byte) (pi int32) {
 	}
 	return
 }
+
+func BinToString(bin []byte) (string) {
+	var lenb = 0
+	for i:=0;i<len(bin);i++{
+		if bin[i] == 0 {
+			lenb = i
+			break
+		}
+	}
+	buf := bytes.NewBuffer(bin[0:lenb])
+	return buf.String()
+}

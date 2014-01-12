@@ -45,7 +45,7 @@ func (logObj *WEBPOSTLogObj) NewLog(logstream []byte) {
 	logObj.DstNatPort = convert.BinToInt(logstream[38:40])
 	logObj.Length = convert.BinToInt(logstream[40:42])
 	logObj.Res = convert.BinToUint16(logstream[42:44])
-	logObj.Data = string(logstream[44:(44 + logObj.Length)])
+	logObj.Data = string(logstream[44:logObj.LogHeader.Length])
 }
 
 func (logObj *WEBPOSTLogObj) LogWrite() {
@@ -54,7 +54,7 @@ func (logObj *WEBPOSTLogObj) LogWrite() {
 }
 
 func (logObj *WEBPOSTLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHeader PkgHeader, logHeader LogHeader) string {
-	return fmt.Sprintf("Host:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:NBC,\tLevel:info,\tRealTime:%d-%d-%d %d:%d:%d,\tSrcIp:%v,\tSrcPort:%d,\tSrcNatIp:%v,\tSrcNatPort:%d,\tDstIp:%v,\tDstPort%d,\tDstNatIp:%v,\tDstNatPort:%d,\tDesc:%s\n",
+	return fmt.Sprintf("[Binary Log WEBPOST] ->Host:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:NBC,\tLevel:info,\tRealTime:%d-%d-%d %d:%d:%d,\tSrcIp:%v,\tSrcPort:%d,\tSrcNatIp:%v,\tSrcNatPort:%d,\tDstIp:%v,\tDstPort%d,\tDstNatIp:%v,\tDstNatPort:%d,\tDesc:%s\n",
 		string(pkgHeader.Host),year, month, day, hour, min, sec,
 		logHeader.Year,logHeader.Month,logHeader.Day,logHeader.TmHour,logHeader.TmMin,logHeader.TmSec,
 		logObj.SrcIp, logObj.SrcPort, logObj.SrcNatIp, logObj.SrcNatPort,

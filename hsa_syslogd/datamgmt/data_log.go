@@ -42,8 +42,8 @@ type PkgHeader struct {
 	Magic   uint32  //packet header uint32
 	Version int     //log 日志版本（第一个版本没有长度，第二个版本有日志长度）
 	Count   int     //log 日志的数量
-        Length  int     //log 日志的长度，通过len(logstream)获取的
-	Host    []uint8 //Host 32 byte  length=32
+    Length  int     //log 日志的长度，通过len(logstream)获取的
+	Host    string //Host 32 byte  length=32
 }
 
 //二进制日志的头，包括日志id
@@ -74,8 +74,8 @@ func (pkgHeader *PkgHeader) NewLog(logstream []byte) {
 	pkgHeader.Magic = convert.BinToUint32(logstream[0:4])
 	pkgHeader.Version = convert.BinToInt(logstream[4:6])
 	pkgHeader.Count = convert.BinToInt(logstream[6:8])
-        pkgHeader.Length = len(logstream)
-	pkgHeader.Host = logstream[8:40]
+    pkgHeader.Length = len(logstream)
+	pkgHeader.Host = convert.BinToString(logstream[8:40])
 }
 
 //LogObj.LogData

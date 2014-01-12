@@ -45,7 +45,7 @@ func (logObj *TXTLogObj) LogWrite() {
 }
 
 func (logObj *TXTLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHeader PkgHeader, logHeader LogHeader) string {
-	return fmt.Sprintf("Module:%s,\tSubModule:%s,\tIndex:%d,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:%s,\tLevel:%s,\tLogDesc:%s\n",
+	return fmt.Sprintf("[Text Log] -> Module:%s,\tSubModule:%s,\tIndex:%d,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:%s,\tLevel:%s,\tLogDesc:%s\n",
 		logObj.Module,logObj.SubModule,logObj.Index,year, month, day, hour, min, sec,
 		logObj.Type,logObj.Severity,string(logObj.Data))
 }
