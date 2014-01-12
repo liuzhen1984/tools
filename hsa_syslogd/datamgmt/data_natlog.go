@@ -7,8 +7,13 @@ import (
 )
 
 const (
-	NAT_LOGID_0 uint32 = 0x46083606
-	NAT_LOGID_1 uint32 = 0x46083607
+	NAT_LOGID [uint32]int =
+	{ 
+		0x46083606:1,
+		0x46083607:1,
+		0x46083615:1,
+		0x46083616:1,
+	}
 )
 
 //日志内容

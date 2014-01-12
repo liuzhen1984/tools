@@ -7,10 +7,33 @@ import (
 )
 
 const (
-	IM_LOGID uint32 = 0x464c7619
+	IM_LOGID [uint32]int =
+	{ 
+		0x464c7619:1,
+		0x464C761A:1,
+	}
 )
 
 //im日志内容
+/*
+    unsigned int sip;
+	unsigned int snat_ip;
+	unsigned int dip;
+	unsigned int dnat_ip;
+	
+	unsigned short sport;
+	unsigned short snat_port;
+	unsigned short dport;
+	unsigned short dnat_port;
+	
+	short length;
+	unsigned short res;
+	
+	* data format as:
+	* user\tvrname\ttype\tid\taction\ta3server\tmac
+
+	char data[0];
+ */
 type IMLogObj struct {
 	LogHeader LogHeader
 
@@ -27,7 +50,7 @@ type IMLogObj struct {
 	Res        uint16
 	/**
 	* data format as:
-	* user\tvrname\ttype\tid\taction
+	* user\tvrname\ttype\tid\taction\ta3server\tmac
 	 */
 	Data []byte //length = Length
 }

@@ -16,6 +16,7 @@ const (
 	NAT_NAME     string = "NAT"
 	NAT444_NAME     string = "NAT444"
 	WEBPOST_NAME string = "WEBPOST"
+	TXTLOG_NAME string = "STONE_TXT"
 )
 
 

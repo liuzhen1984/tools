@@ -7,10 +7,32 @@ import (
 )
 
 const (
-	URL_LOGID uint32 = 0x4438360d
+	URL_LOGID [uint32]int =
+	{ 
+		0x4438360d:1,
+		0x4438360f:1,
+	}
 )
 
 //url日志内容
+/*
+unsigned int sip;
+	unsigned int snat_ip;
+	unsigned int dip;
+	unsigned int dnat_ip;
+	
+	unsigned short sport;
+	unsigned short snat_port;
+	unsigned short dport;
+	unsigned short dnat_port;
+
+	short length;
+	unsigned short res;
+
+	* data format as:
+	* user\tvrname\turl\tcategory\tmethod\taction\treson\ta3server\tmac
+	char data[0];
+ */
 type URLLogObj struct {
 	LogHeader LogHeader
 
@@ -27,7 +49,7 @@ type URLLogObj struct {
 	Res        uint16
 	/**
 	* data format as:
-	* user\tvrname\ttype\tid\taction
+	* user\tvrname\turl\tcategory\tmethod\taction\treson\ta3server\tmac
 	 */
 	Data []byte //length = Length
 }

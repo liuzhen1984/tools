@@ -19,6 +19,7 @@ var logHeader = new(LogHeader)
 var imLogObj = new(IMLogObj)
 var natLogObj = new(NATLogObj)
 var urlLogObj = new(URLLogObj)
+var txtLogObj = new(TXTLogObj)
 var webpostLogObj = new(WEBPOSTLogObj)
 
 //多线程调用
@@ -35,17 +36,15 @@ func DataAnalyse(logdata []byte) {
 				//第一个log
 				logHeader.NewLog(logdata[log_count : log_count+LOG_HEADER_LENGTH])
 									fmt.Printf("logid = %x\n",logHeader.Logid)
-
-				if logHeader.Logid == IM_LOGID {
+				if _,ok:=IM_LOGID[logHeader.Logid] {
 		                        writeFormat(imLogObj,logdata[log_count:])
-				} else if logHeader.Logid == NAT_LOGID_1 || logHeader.Logid == NAT_LOGID_0 {
+				} else if _,ok:=NAT_LOGID[logHeader.Logid] {
 
 		                        writeFormat(natLogObj,logdata[log_count:])
-				} else if logHeader.Logid == URL_LOGID {
+				} else if _,ok:=URL_LOGID[logHeader.Logid] {
 		                        writeFormat(urlLogObj,logdata[log_count:])
-				} else if logHeader.Logid == WEBPOST_LOGID {
-		                        writeFormat(webpostLogObj,logdata[log_count:])
 				} else {
+
 				}
 				if pkgHeader.Version != 1 && logHeader.Length != 0 {
 					log_count = log_count + logHeader.Length
@@ -55,7 +54,9 @@ func DataAnalyse(logdata []byte) {
 			}
 
 		} else {
-			fmt.Println("日志头错误")
+			magicid:=string(logdata[1:3])
+			println(magicid)
+			writeFormat(txtLogObj,logdata)
 		}
 	        
 }
