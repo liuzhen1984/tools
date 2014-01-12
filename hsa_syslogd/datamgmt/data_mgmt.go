@@ -75,8 +75,11 @@ func BuffToFile(logType string) {
 	year, month, day := ptime.Date()
 	hour, min, sec := ptime.Clock()
 	stime := fmt.Sprintf(log_name_format, year, month, day, hour, min)
-
-    curFile, err := os.OpenFile("./"+logType+"_"+stime+".log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	var spath = "./"
+	if config.SAVE_PATH != "" {
+		spath = config.SAVE_PATH
+	}
+    curFile, err := os.OpenFile(spath+"/"+logType+"_"+stime+".log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
     defer curFile.Close()
 
 	if err != nil {
@@ -99,7 +102,7 @@ BTF:
 				year, month, day = ctime.Date()
 				hour, min, sec = ctime.Clock()
 				stime = fmt.Sprintf(log_name_format, year, month, day, hour, min)
-			    curFile, _ = os.OpenFile("./"+logType+"_"+stime+".log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+			    curFile, _ = os.OpenFile(spath+"/"+logType+"_"+stime+".log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 
 			}
 			ptime = ctime

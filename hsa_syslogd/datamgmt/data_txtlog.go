@@ -28,20 +28,15 @@ type TXTLogObj struct {
 	SubModule string;
 	Type string;
 	Severity string;
+	Index uint64;
 	Data string; //length = Length
 }
 
 //LogObj.LogData
 func (logObj *TXTLogObj) NewLog(logstream []byte) {
 	id:=string(logstream[25:32])
-	logid,err:=strconv.ParseUint("0x"+id,0,0)
-	if err == nil {
-	    logObj.Module = MODULE[logid>>24&0x03F]
-	    logObj.SubModule = SUB_MODULE[logObj.Module][logid>>18&0x03F]
-	    logObj.Type = TYPE[logid>>12&0x03F]
-	    logObj.Severity = SEVERITY[logid>>8&0x03F]
-	    logObj.Data = string(logstream[5:])
-	}
+	logObj.Module,logObj.SubModule,logObj.Type,logObj.Severity,logObj.Index=ParseLogid(id)
+    logObj.Data = string(logstream[5:])
 }
 
 func (logObj *TXTLogObj) LogWrite() {
@@ -50,7 +45,17 @@ func (logObj *TXTLogObj) LogWrite() {
 }
 
 func (logObj *TXTLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHeader PkgHeader, logHeader LogHeader) string {
-	return fmt.Sprintf("Module:%s,\tSubModule:%s,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:%s,\tLevel:%s,\tLogDesc:%s\n",
-		logObj.Module,logObj.SubModule,year, month, day, hour, min, sec,
+	return fmt.Sprintf("Module:%s,\tSubModule:%s,\tIndex:%d,\tReceiveTime:%d-%d-%d %d:%d:%d,\tCategory:%s,\tLevel:%s,\tLogDesc:%s\n",
+		logObj.Module,logObj.SubModule,logObj.Index,year, month, day, hour, min, sec,
 		logObj.Type,logObj.Severity,string(logObj.Data))
+}
+
+
+func ParseLogid(id string) (string,string,string,string,uint64){
+	logid,err:=strconv.ParseUint("0x"+id,0,0)
+	if err==nil{
+	    return MODULE[(logid>>24)&0x03F],SUB_MODULE[MODULE[(logid>>24)&0x03F]][(logid>>18)&0x03F],TYPE[(logid>>12)&0x03F],SEVERITY[(logid>>8)&0x03F],logid&0x0FF
+	}else{
+		return "","","","",0
+	}
 }

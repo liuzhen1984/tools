@@ -6,7 +6,11 @@ import (
 	"./tools/convert"
 	"fmt"
 	"net"
+	"flag"
 )
+
+var operatType string
+var logid string;
 
 func syslogd() {
 	listenIp := convert.IpToBytes("")
@@ -42,9 +46,27 @@ func syslogd() {
 
 }
 
-func main() {
+func inita() {
+          	
+	flag.StringVar(&config.SAVE_PATH,"write","./","Receive log write to ${path}/logtype_data-time.log")
+	
+	flag.StringVar(&logid,"logid","","Parse logid to Stoneos txtlog module and other property")
+
+    flag.Parse()
+
 	for _, v := range config.LOGTYPES {
 		config.LogTypeBuffMap[v] = make(chan interface{}, 8192)
+	}
+
+}
+
+func main() {
+	inita()
+
+	if logid != "" {
+		module,smodule,logtype,severity,index := datamgmt.ParseLogid(logid)
+		fmt.Printf("Logid = %s, Parse to Module: %s ,SubModule: %s ,Type: %s ,Severity: %s ,Index %d \n",logid,module,smodule,logtype,severity,index)
+		return
 	}
 
 	for _, v := range config.LOGTYPES {
@@ -52,5 +74,4 @@ func main() {
 	}
 	//启动syslogd主进程
 	syslogd()
-
 }

@@ -8,6 +8,7 @@ var LogTypeBuffMap = make(map[string]chan interface{})
 */
 
 var LOGTYPES = []string {"IM","URL","NAT","STONE_TXT","WEBPOST","NAT444"}
+var SAVE_PATH string
 
 const (
 	IM_NAME      string = "IM"
