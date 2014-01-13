@@ -22,7 +22,6 @@ var imLogObj = new(IMLogObj)
 var natLogObj = new(NATLogObj)
 var urlLogObj = new(URLLogObj)
 var txtLogObj = new(TXTLogObj)
-var webpostLogObj = new(WEBPOSTLogObj)
 
 //多线程调用
 func DataAnalyse(logdata []byte) {

@@ -53,8 +53,13 @@ func (logObj *TXTLogObj) FileFormat(year, month, day, hour, min, sec int, pkgHea
 
 func ParseLogid(id string) (string,string,string,string,uint64){
 	logid,err:=strconv.ParseUint("0x"+id,0,0)
+	println("logid",logid)
 	if err==nil{
-	    return MODULE[(logid>>24)&0x03F],SUB_MODULE[MODULE[(logid>>24)&0x03F]][(logid>>18)&0x03F],TYPE[(logid>>12)&0x03F],SEVERITY[(logid>>8)&0x03F],logid&0x0FF
+		module:=MODULE[(logid>>24)&0x03F]
+		subModule:=SUB_MODULE[module][(logid>>18)&0x03F]
+		types:=TYPE[int((logid>>12)&0x03F)]
+		severity := SEVERITY[(logid>>8)&0x0F]
+	    return module,subModule,types,severity,logid&0x0FF
 	}else{
 		return "","","","",0
 	}
