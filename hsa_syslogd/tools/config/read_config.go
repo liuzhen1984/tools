@@ -7,14 +7,14 @@ var LogTypeBuffMap = make(map[string]chan interface{})
 启动时初始化一次，其他的则直接读取
 */
 
-var LOGTYPES = []string {"IM","URL","NAT","STONE_TXT","WEBPOST","NAT444"}
+var LOGTYPES = []string {"IM","URL","NAT","STONE_TXT"}
 var SAVE_PATH string
 
 const (
 	IM_NAME      string = "IM"
 	URL_NAME     string = "URL"
 	NAT_NAME     string = "NAT"
-	NAT444_NAME  string = "NAT444"
-	WEBPOST_NAME string = "WEBPOST"
+	//NAT444_NAME  string = "NAT444"
+	//WEBPOST_NAME string = "WEBPOST"
 	TXTLOG_NAME  string = "STONE_TXT"
 )
