@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path:  lucene-core-4.3.0.jar lucene-codecs-4.3.0.jar lucene-analyzers-common-4.3.0.jar
+Main-Class: Main
+

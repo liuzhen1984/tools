@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LogIndex">
+    <output-path>$PROJECT_DIR$/out/artifacts/LogIndex</output-path>
+    <root id="archive" name="LogIndex.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Lucene4" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../Lib/lucene-4.3.0/analysis/common/lucene-analyzers-common-4.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../Lib/lucene-4.3.0/core/lucene-core-4.3.0.jar" path-in-jar="/" />
+      <element id="directory" name="services">
+        <element id="dir-copy" path="$PROJECT_DIR$/services" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,64 @@
+<component name="libraryTable">
+  <library name="lucene-core-4.3.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Lib/lucene-4.3.0/core/lucene-core-4.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/core/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/core/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/demo/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/demo/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/join/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/join/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/misc/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/misc/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/facet/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/facet/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/tools/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/codecs/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/codecs/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/memory/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/memory/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/queries/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/queries/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/sandbox/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/sandbox/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/spatial/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/spatial/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/suggest/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/suggest/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/icu/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/icu/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/icu/src/tools/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/uima/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/uima/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/common/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/common/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/common/src/tools/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/smartcn/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/smartcn/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/stempel/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/stempel/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/kuromoji/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/kuromoji/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/kuromoji/src/tools/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/kuromoji/src/tools/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/phonetic/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/phonetic/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/morfologik/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/analysis/morfologik/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/grouping/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/grouping/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/benchmark/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/benchmark/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/highlighter/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/highlighter/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/queryparser/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/queryparser/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/classification/src/java" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/classification/src/test" />
+      <root url="file://$PROJECT_DIR$/../Lib/lucene-4.3.0-source/test-framework/src/java" />
+    </SOURCES>
+  </library>
+</component>
